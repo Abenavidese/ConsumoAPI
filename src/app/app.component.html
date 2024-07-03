@@ -26,16 +26,9 @@
 </div>
 
 
-
-<form [formGroup]="clienteForm" *ngIf="selectedCliente">
-  <label for="cedula">Cédula:</label>
-  <input id="cedula" formControlName="cedula" type="text" />
-
-  <label for="nombre">Nombre:</label>
-  <input id="nombre" formControlName="nombre" type="text" />
-
-  <label for="direccion">Dirección:</label>
-  <input id="direccion" formControlName="direccion" type="text" />
-
-  <button (click)="updateCliente()">Actualizar</button>
+<form (ngSubmit)="updateCliente()">
+  <input type="text" [(ngModel)]="updateClienteData.cedula" name="updateCedula" placeholder="Cédula" required >
+  <input type="text" [(ngModel)]="updateClienteData.nombre" name="updateNombre" placeholder="Nombre" required>
+  <input type="text" [(ngModel)]="updateClienteData.direccion" name="updateDireccion" placeholder="Dirección" required>
+  <button type="submit">Actualizar Cliente</button>
 </form>

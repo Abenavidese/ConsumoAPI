@@ -6,10 +6,10 @@ import { provideClientHydration } from '@angular/platform-browser';
 
 import { provideHttpClient, withFetch } from '@angular/common/http';  // Importa provideHttpClient
 import { ClienteService } from './cliente.service';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideHttpClient(withFetch()), ClienteService, ReactiveFormsModule ]
+  providers: [provideRouter(routes), provideClientHydration(), provideHttpClient(withFetch()), ClienteService, FormsModule ]
 };

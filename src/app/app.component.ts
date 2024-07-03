@@ -4,7 +4,7 @@ import { OnInit } from '@angular/core';
 import { ClienteService } from './cliente.service';
 import { CommonModule } from '@angular/common'
 import { Cliente } from './cliente.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -19,18 +19,13 @@ export class AppComponent implements OnInit {
 
   clientes: Cliente[] = [];
   newCliente: Cliente = { cedula: '', nombre: '', direccion: '' };
-  clienteForm: FormGroup;
+  updateClienteData: Cliente = { cedula: '', nombre: '', direccion: '' };
+
   selectedCliente: Cliente | null = null;
 
   constructor(private clienteService: ClienteService, private fb: FormBuilder) {
-    this.clienteForm = this.fb.group({
-      clienteId: [''],
-      cedula: [''],
-      nombre: [''],
-      direccion: ['']
-    });
-  }
 
+  }
   ngOnInit(): void {
     this.getClientes();
   }
@@ -48,22 +43,21 @@ export class AppComponent implements OnInit {
     });
   }
 
- selectCliente(cliente: Cliente): void {
-    this.selectedCliente = cliente;
-    this.clienteForm.patchValue(cliente);
+  selectCliente(cliente: Cliente): void {
+    this.updateClienteData = { ...cliente };
   }
 
   updateCliente(): void {
-    if (this.selectedCliente) {
-      const updatedCliente = this.clienteForm.value;
-      this.clienteService.updateCliente(updatedCliente).subscribe(() => {
+    if (this.updateClienteData.cedula) {
+      this.clienteService.updateCliente(this.updateClienteData).subscribe(() => {
         this.getClientes();
-        this.selectedCliente = null;
-        this.clienteForm.reset();
+        this.updateClienteData = { cedula: '', nombre: '', direccion: '' };
       });
     }
   }
 
+
+  
   deleteCliente(cedula: string): void {
     this.clienteService.deleteCliente(cedula).subscribe(() => {
       this.clientes = this.clientes.filter(cliente => cliente.cedula !== cedula);
